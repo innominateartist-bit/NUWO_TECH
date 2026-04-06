@@ -28,8 +28,8 @@ export default function App(){
   const[pg,sPg]=useState("gate");
   const[user,sUser]=useState(null);
   const[prods,sProds]=useState(P);
-  const[st,sSt]=useState({shopName:NUWO TECH Shop",whatsapp:""});
-  const[pw,sPw]=useState("whong2024");
+  const[st,sSt]=useState({shopName:"NUWO TECH",whatsapp:""});
+  const[pw,sPw]=useState("nuwotech2024");
   const[rl,sRl]=useState(DR);
   const[vis,sVis]=useState([]);
   const[cart,sCart]=useState([]);
@@ -43,8 +43,8 @@ export default function App(){
     let all=[...P,...cp.map(x=>({...x,price:0,image:"",hot:false,stock:"in_stock"}))];
     all=all.filter(p=>!rm.includes(String(p.i)));
     sProds(all.map(p=>{const k=String(p.i);return{...p,price:sp[k]??0,image:si[k]??"",hot:sh[k]??false,stock:ss[k]??"in_stock"}}));
-    sSt(LD("wh-st",{shopName:"NUWO TECH Shop",whatsapp:""}));
-    sPw(LD("wh-pw","whong2024"));sRl(LD("wh-rl",DR));sVis(LD("wh-vis",[]));
+    sSt(LD("wh-st",{shopName:"NUWO TECH",whatsapp:""}));
+    sPw(LD("wh-pw","nuwotech2024"));sRl(LD("wh-rl",DR));sVis(LD("wh-vis",[]));
     const u=LD("wh-usr",null);if(u){sUser(u);sPg("store")}
   },[]);
 
@@ -111,7 +111,7 @@ function Gate({onDone}){
     <div style={{background:"linear-gradient(170deg,#0a0f1f,#060a16)",borderRadius:28,padding:"38px 28px",maxWidth:440,width:"100%",border:"1px solid #15203a",animation:"fi 0.6s ease",boxShadow:"0 30px 80px rgba(0,0,0,0.6)"}}>
       <div style={{textAlign:"center",marginBottom:26}}>
         <div style={{fontSize:44,marginBottom:10,animation:"fl 3s ease-in-out infinite",filter:"drop-shadow(0 4px 12px #c9a24e44)"}}>👑</div>
-        <h1 className="gl" style={{fontSize:30,fontWeight:800,fontFamily:"'Playfair Display',serif"}}>NUWO TECH Shop Shop</h1>
+        <h1 className="gl" style={{fontSize:30,fontWeight:800,fontFamily:"'Playfair Display',serif"}}>NUWO TECH</h1>
         <p style={{fontSize:9,color:"#4a5578",letterSpacing:"0.25em",textTransform:"uppercase",marginTop:5}}>◈ PREMIUM MOBILE DISPLAYS ◈</p></div>
       <div style={{background:"#0b1022",borderRadius:14,padding:"14px 18px",marginBottom:22,border:"1px solid #15203a"}}>
         <p style={{fontSize:13,color:"#7a8aaa",textAlign:"center",fontFamily:"'Playfair Display',serif",fontStyle:"italic",lineHeight:1.5}}>Register to explore 400+ premium displays with live pricing in your local currency</p></div>

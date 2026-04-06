@@ -74,23 +74,7 @@ export default function App(){
 }
 
 const CC={"🇮🇳 India":"INR","🇺🇸 USA":"USD","🇬🇧 UK":"GBP","🇦🇪 UAE":"AED","🇸🇦 Saudi Arabia":"SAR","🇨🇳 China":"CNY","🇯🇵 Japan":"JPY","🇰🇷 South Korea":"KRW","🇲🇾 Malaysia":"MYR","🇹🇭 Thailand":"THB","🇮🇩 Indonesia":"IDR","🇵🇭 Philippines":"PHP","🇧🇩 Bangladesh":"BDT","🇵🇰 Pakistan":"PKR","🇳🇬 Nigeria":"NGN","🇰🇪 Kenya":"KES","🇿🇦 South Africa":"ZAR","🇪🇬 Egypt":"EGP","🇹🇷 Turkey":"TRY","🇷🇺 Russia":"RUB","🇧🇷 Brazil":"BRL","🇩🇪 Germany":"EUR","🇫🇷 France":"EUR","🇦🇺 Australia":"AUD","🇨🇦 Canada":"CAD","🇸🇬 Singapore":"USD","🇻🇳 Vietnam":"USD","🇳🇵 Nepal":"INR","🌍 Other":"USD"};
-const CU=[{c:"INR",s:"₹",f:"🇮🇳"},{c:"USD",s:"$",f:"🇺🇸"},{c:"EUR",s:"€",f:"🇪🇺"},{c:"GBP",s:"£",f:"🇬🇧"},{c:"AED",s:"د.إ",f:"🇦🇪"},{c:"CNY",s:"¥",f:"🇨🇳"},{c:"SAR",s:"﷼",f:"🇸🇦"},{c:"JPY",s:"¥",f:"🇯🇵"},{c:"KRW",s:"₩",f:"🇰🇷"},{c:"MYR",s:"RM",f:"🇲🇾"},{c:"THB",s:"฿",f:"🇹🇭"},{c:"IDR",s:"Rp",f:"🇮🇩"},{c:"PHP",s:"₱",f:"🇵🇭"},{c:"BDT",s:"৳",f:"🇧🇩"},{c:"NGN",s:"₦",f:"🇳🇬"},{c:"PKR",s:"₨",f:"🇵🇰"},{c:"BRL",s:"R$",f:"🇧🇷"},{c:"TRY",s:"₺",f:"🇹🇷"},{c:"ZAR",s:"R",f:"🇿🇦"},{c:"AUD",s:"A$",f:"🇦🇺"},{c:"CAD",s:"C$",f:"🇨🇦"},{c:"RUB",s:"₽",f:"🇷🇺"},{c:"EGP",s:"E£",f:"🇪🇬"},{c:"KES",s:"KSh",f:"🇰🇪"}];
-const CO=["🇮🇳 India","🇺🇸 USA","🇬🇧 UK","🇦🇪 UAE","🇸🇦 Saudi Arabia","🇨🇳 China","🇯🇵 Japan","🇰🇷 South Korea","🇲🇾 Malaysia","🇹🇭 Thailand","🇮🇩 Indonesia","🇵🇭 Philippines","🇧🇩 Bangladesh","🇵🇰 Pakistan","🇳🇬 Nigeria","🇰🇪 Kenya","🇿🇦 South Africa","🇪🇬 Egypt","🇹🇷 Turkey","🇷🇺 Russia","🇧🇷 Brazil","🇩🇪 Germany","🇫🇷 France","🇦🇺 Australia","🇨🇦 Canada","🇸🇬 Singapore","🇻🇳 Vietnam","🇳🇵 Nepal","🌍 Other"];
-const BR=[...new Set(P.map(p=>p.b))].sort();
-const TM={ORG:{l:"Original",g:"linear-gradient(135deg,#047857,#34d399)"},OLED:{l:"OLED",g:"linear-gradient(135deg,#9f1239,#fb7185)"},TFT:{l:"TFT",g:"linear-gradient(135deg,#b45309,#fbbf24)"}};
-const BI={Samsung:"S",Xiaomi:"Mi",Vivo:"V",OPPO:"O",OnePlus:"1+",Motorola:"M",Honor:"H",Nothing:"N","Google Pixel":"G",Huawei:"HW","Infinix/Tecno":"IX",Sony:"SN"};
-const DR="📋 REPLACEMENT & RETURN POLICY\n\n1. All displays quality-tested before dispatch\n2. 7-day replacement guarantee\n3. Video proof required for defective claims\n4. Return shipping cost borne by buyer\n5. No returns on physically damaged items\n6. Bulk orders (10+) get priority replacement\n7. Contact us on WhatsApp for fastest support";
 
-const Y=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}body{background:#04060c;font-family:'Nunito Sans',sans-serif;color:#e2ddd5}
-input,textarea,select{font-family:'Nunito Sans',sans-serif}
-@keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes sh{0%{background-position:-200% center}100%{background-position:200% center}}
-@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-@keyframes gw{0%,100%{box-shadow:0 0 6px #c9a24e11}50%{box-shadow:0 0 18px #c9a24e33}}
-.gl{background:linear-gradient(90deg,#a8842f,#f5dfa0,#c9a24e,#f5dfa0);background-size:300% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:sh 4s linear infinite}
-.ub{background:linear-gradient(135deg,#065f46,#10b981);color:#fff;padding:2px 7px;border-radius:10px;font-size:7px;font-weight:700;letter-spacing:0.05em}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#1e2a4a;border-radius:3px}`;
 
 /* ═══ QTY POPUP — appears when customer clicks Add to Order ═══ */
 function QtyPop({product,onConfirm,onClose}){
@@ -123,7 +107,7 @@ function Gate({onDone}){
   const go=()=>{if(!n.trim())return sE("Please enter your name");if(p.length<6)return sE("Enter valid phone number");if(!c)return sE("Select your country");
     onDone({name:n.trim(),phone:p.trim(),country:c,joinedAt:new Date().toISOString()})};
   const I={width:"100%",padding:"13px 15px",borderRadius:12,border:"1.5px solid #15203a",background:"#0b1022",color:"#e2ddd5",fontSize:14,outline:"none",boxSizing:"border-box",transition:"border 0.2s"};
-  return(<div style={{minHeight:"100vh",background:"#04060c",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}><style>{Y}</style>
+  return(<div style={{minHeight:"100vh",background:"#04060c",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}><style>{S}</style>
     <div style={{background:"linear-gradient(170deg,#0a0f1f,#060a16)",borderRadius:28,padding:"38px 28px",maxWidth:440,width:"100%",border:"1px solid #15203a",animation:"fi 0.6s ease",boxShadow:"0 30px 80px rgba(0,0,0,0.6)"}}>
       <div style={{textAlign:"center",marginBottom:26}}>
         <div style={{fontSize:44,marginBottom:10,animation:"fl 3s ease-in-out infinite",filter:"drop-shadow(0 4px 12px #c9a24e44)"}}>👑</div>
@@ -163,7 +147,7 @@ function Shp({prods,st,rl,cart,sCart,cur,sCur,fmt,rateTime,onAdm}){
   const handleAdd=(product)=>{if(cs.has(product.i))return;sQtyProd(product)};
   const confirmAdd=(qty)=>{sCart(v=>[...v,{...qtyProd,qty}]);sQtyProd(null)};
 
-  return(<div style={{minHeight:"100vh",background:"#04060c"}}><style>{Y}</style>
+  return(<div style={{minHeight:"100vh",background:"#04060c"}}><style>{S}</style>
     <header style={{background:"linear-gradient(180deg,#080d1a,#04060c)",borderBottom:"1px solid #15203a",position:"sticky",top:0,zIndex:100}}>
       <div style={{height:2,background:"linear-gradient(90deg,transparent,#c9a24e,#f5dfa0,#c9a24e,transparent)",opacity:0.5}}/>
       <div style={{maxWidth:1280,margin:"0 auto",padding:"10px 16px"}}>
@@ -301,7 +285,7 @@ function Lgn({pw,onOk,onBack}){
   const[v,sV]=useState("");const[e,sE]=useState(false);const[a,sA]=useState(0);const[lk,sLk]=useState(false);const[lt,sLt]=useState(0);
   useEffect(()=>{if(!lk)return;const iv=setInterval(()=>sLt(p=>{if(p<=1){sLk(false);sA(0);clearInterval(iv);return 0}return p-1}),1000);return()=>clearInterval(iv)},[lk]);
   const ck=()=>{if(lk)return;if(v===pw)onOk();else{const n=a+1;sA(n);sE(true);if(n>=5){sLk(true);sLt(60);sV("")}}};
-  return(<div style={{minHeight:"100vh",background:"#04060c",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}><style>{Y}</style>
+  return(<div style={{minHeight:"100vh",background:"#04060c",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}><style>{S}</style>
     <div style={{background:"linear-gradient(170deg,#0a0f1f,#060a16)",borderRadius:22,padding:"38px 26px",maxWidth:360,width:"100%",border:"1px solid #15203a",textAlign:"center",boxShadow:"0 20px 60px rgba(0,0,0,0.5)"}}>
       <div style={{fontSize:36,marginBottom:14}}>🔒</div>
       <h2 className="gl" style={{fontSize:24,fontFamily:"'Playfair Display',serif",marginBottom:18}}>Admin Access</h2>
@@ -322,7 +306,7 @@ function Adm({prods,st,rl,vis,pw,upd,addP,rmP,saveSt,savePw,saveRl,onExit}){
   const fl=prods.filter(p=>{const q=se.toLowerCase();return!q||p.m.toLowerCase().includes(q)||p.b.toLowerCase().includes(q)});
   const I={width:"100%",padding:"9px 12px",borderRadius:8,border:"1px solid #15203a",background:"#0b1022",color:"#e2ddd5",fontSize:11,outline:"none",boxSizing:"border-box"};
   const TB=[{k:"products",l:"📦 Products"},{k:"add",l:"➕ Add/Remove"},{k:"rules",l:"📋 Rules"},{k:"visitors",l:"👥 Visitors"},{k:"settings",l:"⚙️ Settings"}];
-  return(<div style={{minHeight:"100vh",background:"#04060c"}}><style>{Y}</style>
+  return(<div style={{minHeight:"100vh",background:"#04060c"}}><style>{S}</style>
     <header style={{background:"#080d1a",borderBottom:"1px solid #15203a",position:"sticky",top:0,zIndex:100}}>
       <div style={{height:2,background:"linear-gradient(90deg,#8a6d2b,#d4a853,#8a6d2b)",opacity:0.3}}/>
       <div style={{maxWidth:1100,margin:"0 auto",padding:"10px 16px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>

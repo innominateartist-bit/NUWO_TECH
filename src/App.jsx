@@ -32,30 +32,31 @@ input,textarea,select{font-family:'Nunito Sans',sans-serif}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#1e2a4a;border-radius:3px}`;
 
 /* ── CLOUD STORAGE (shared across all users worldwide) ── */
-/* INSTRUCTIONS: Replace YOUR_NPOINT_ID below with your npoint.io bin ID */
-/* Go to npoint.io → create JSON with {} → copy the ID from the URL */
 const NPOINT_ID = "7da061c58f83ae076201";
 const CLOUD_URL = "https://api.npoint.io/" + NPOINT_ID;
 const WA_NUMBER = "8619540001954";
 
+let _cloudCache = null;
+
 async function cloudLoad() {
   try {
-    const r = await fetch(CLOUD_URL);
-    if (!r.ok) return {};
-    return await r.json();
-  } catch { return {}; }
+    const r = await fetch(CLOUD_URL + "?t=" + Date.now());
+    if (!r.ok) return _cloudCache || {};
+    const data = await r.json();
+    _cloudCache = data;
+    return data;
+  } catch { return _cloudCache || {}; }
 }
 
-async function cloudSave(data) {
+async function cloudSave(fullData) {
   try {
-    const existing = await cloudLoad();
-    const merged = { ...existing, ...data };
-    await fetch(CLOUD_URL, {
+    _cloudCache = fullData;
+    const r = await fetch(CLOUD_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(merged)
+      body: JSON.stringify(fullData)
     });
-    return true;
+    return r.ok;
   } catch { return false; }
 }
 
@@ -102,7 +103,7 @@ export default function App(){
   const fmt=(p)=>{if(!p)return"";const v=p*(rates[cur]||FB[cur]||1);return(cur==="JPY"||cur==="KRW"||cur==="IDR")?cInf.s+Math.round(v).toLocaleString():cInf.s+v.toFixed(2)};
 
   const reg=(u)=>{sUser(u);try{localStorage.setItem("nw-user",JSON.stringify(u))}catch{}
-    sVis(v=>{if(v.find(x=>x.phone===u.phone))return v;const n=[...v,u];(async()=>{await cloudSave({visitors:n})})();return n});
+    sVis(v=>{if(v.find(x=>x.phone===u.phone))return v;const n=[...v,u];(async()=>{const cloud=await cloudLoad();cloud.visitors=n;await cloudSave(cloud)})();return n});
     const autoCur=CC[u.country]||"USD";sCur(autoCur);sPg("store");
     window.open("https://wa.me/"+WA_NUMBER+"?text=🔔 NEW VISITOR%0A👤 "+u.name+"%0A📱 "+u.phone+"%0A🌍 "+u.country,"_blank")};
   const upd=async(id,f,v)=>{sProds(p=>p.map(x=>x.i===id?{...x,[f]:v}:x));
@@ -112,9 +113,9 @@ export default function App(){
     const cloud=await cloudLoad();if(!cloud.custom)cloud.custom=[];cloud.custom.push({i:np.i,b:np.b,m:np.m,c:np.c,t:np.t,r:np.r||"",u:np.u});await cloudSave(cloud);};
   const rmP=async(id)=>{sProds(p=>p.filter(x=>x.i!==id));
     const cloud=await cloudLoad();if(!cloud.removed)cloud.removed=[];cloud.removed.push(String(id));await cloudSave(cloud);};
-  const saveSt=async(s)=>{sSt(s);await cloudSave({settings:s});};
-  const savePw=async(p)=>{sPw(p);await cloudSave({password:p});};
-  const saveRl=async(r)=>{sRl(r);await cloudSave({rules:r});};
+  const saveSt=async(s)=>{sSt(s);const cloud=await cloudLoad();cloud.settings=s;await cloudSave(cloud);};
+  const savePw=async(p)=>{sPw(p);const cloud=await cloudLoad();cloud.password=p;await cloudSave(cloud);};
+  const saveRl=async(r)=>{sRl(r);const cloud=await cloudLoad();cloud.rules=r;await cloudSave(cloud);};
 
   if(pg==="gate")return <Gate onDone={reg}/>;
   if(pg==="login")return <Lgn pw={pw} onOk={()=>sPg("admin")} onBack={()=>sPg("store")}/>;

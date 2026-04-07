@@ -20,9 +20,9 @@ const BI={Samsung:"S",Xiaomi:"Mi",Vivo:"V",OPPO:"O",OnePlus:"1+",Motorola:"M",Ho
 const DR="📋 REPLACEMENT & RETURN POLICY\n\n1. All displays are quality-tested before dispatch\n2. 7-day replacement guarantee from delivery\n3. Video proof required for defective claims\n4. Return shipping cost borne by buyer\n5. No returns on physically damaged items\n6. Bulk orders (10+ units) get priority replacement\n7. Contact us on WhatsApp for fastest support";
 const FB={INR:1,USD:0.012,EUR:0.011,GBP:0.0094,AED:0.044,CNY:0.086,SAR:0.045,JPY:1.79,KRW:16.5,MYR:0.053,THB:0.42,IDR:191,PHP:0.67,BDT:1.44,NGN:18.5,PKR:3.34,BRL:0.06,TRY:0.46,ZAR:0.22,AUD:0.018,CAD:0.016,RUB:1.1,EGP:0.60,KES:1.55};
 
-const S=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}body{background:#04060c;font-family:'Nunito Sans',sans-serif;color:#e2ddd5}
-input,textarea,select{font-family:'Nunito Sans',sans-serif}
+const S=`@import url('https://fonts.loli.net/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}body{background:#04060c;font-family:'Nunito Sans','PingFang SC','Microsoft YaHei',sans-serif;color:#e2ddd5}
+input,textarea,select{font-family:'Nunito Sans','PingFang SC','Microsoft YaHei',sans-serif}
 @keyframes fi{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes sh{0%{background-position:-200% center}100%{background-position:200% center}}
 @keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
@@ -38,9 +38,16 @@ const WA_NUMBER = "8619540001954";
 
 let _cloudCache = null;
 
+function fetchWithTimeout(url, options, timeout=8000) {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), timeout))
+  ]);
+}
+
 async function cloudLoad() {
   try {
-    const r = await fetch(CLOUD_URL + "?t=" + Date.now());
+    const r = await fetchWithTimeout(CLOUD_URL + "?t=" + Date.now());
     if (!r.ok) return _cloudCache || {};
     const data = await r.json();
     _cloudCache = data;
@@ -51,11 +58,11 @@ async function cloudLoad() {
 async function cloudSave(fullData) {
   try {
     _cloudCache = fullData;
-    const r = await fetch(CLOUD_URL, {
+    const r = await fetchWithTimeout(CLOUD_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fullData)
-    });
+    }, 10000);
     return r.ok;
   } catch { return false; }
 }
@@ -93,10 +100,21 @@ export default function App(){
     })();
   },[]);
 
-  // Fetch LIVE exchange rates
+  // Fetch LIVE exchange rates (with fallback for China)
   useEffect(()=>{
-    fetch("https://api.exchangerate-api.com/v4/latest/INR")
-      .then(r=>r.json()).then(d=>{if(d.rates){sRates(d.rates);sRateTime(new Date().toLocaleTimeString())}}).catch(()=>{});
+    (async()=>{
+      try {
+        const r = await fetchWithTimeout("https://api.exchangerate-api.com/v4/latest/INR");
+        const d = await r.json();
+        if(d.rates){sRates(d.rates);sRateTime(new Date().toLocaleTimeString())}
+      } catch {
+        try {
+          const r2 = await fetchWithTimeout("https://open.er-api.com/v6/latest/INR");
+          const d2 = await r2.json();
+          if(d2.rates){sRates(d2.rates);sRateTime(new Date().toLocaleTimeString()+" (backup)")}
+        } catch { sRateTime("Using offline rates") }
+      }
+    })();
   },[]);
 
   const cInf=CU.find(x=>x.c===cur)||CU[0];
